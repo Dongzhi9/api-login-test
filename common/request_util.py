@@ -5,6 +5,7 @@ from common.config_util import load_config
 
 @pytest.fixture(scope="session")
 def token():
+    """登录获取 access_token，整个测试会话只执行一次。"""
     config=load_config()
     url=config["base_url"]+ "/auth/login"
     payload={

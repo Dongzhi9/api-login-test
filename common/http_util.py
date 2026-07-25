@@ -2,7 +2,8 @@ import requests
 
 session = requests.session()
 
-def send_request(method,url,json=None,headers=None):
+def send_request(method, url, json=None, headers=None):
+    """统一发送 HTTP 请求，自动打印请求和响应的详细信息。"""
     print("="*30)
     print("request")
     print("method:",method)
@@ -24,6 +25,7 @@ def send_request(method,url,json=None,headers=None):
     return response
 
 def set_token(token):
+    """将 Bearer token 设置到全局 session 的请求头中，后续请求自动携带。"""
     session.headers.update({
         "Authorization": f"Bearer {token}"
     })
