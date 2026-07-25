@@ -1,6 +1,6 @@
 import requests
 
-session=requests.session()
+session = requests.session()
 
 def send_request(method,url,json=None,headers=None):
     print("="*30)
@@ -22,3 +22,8 @@ def send_request(method,url,json=None,headers=None):
     print("body:",response.text)
 
     return response
+
+def set_token(token):
+    session.headers.update({
+        "Authorization": f"Bearer {token}"
+    })
