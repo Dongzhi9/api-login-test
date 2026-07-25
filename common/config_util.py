@@ -6,4 +6,3 @@ def load_config():
     with open(path,encoding="utf-8") as f:
         config=yaml.safe_load(f)
     return config
-print(load_config())
