@@ -1,5 +1,7 @@
 import requests
 
+session=requests.session()
+
 def send_request(method,url,json=None,headers=None):
     print("="*30)
     print("request")
@@ -8,7 +10,7 @@ def send_request(method,url,json=None,headers=None):
     print("json:",json)
     print("headers:",headers)
 
-    response=requests.request(
+    response=session.request(
         method=method,
         url=url,
         json=json,
