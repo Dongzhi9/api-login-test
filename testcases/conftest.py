@@ -32,4 +32,15 @@ def create_product():
     )
     data = response.json()
     assert response.status_code == 201
-    return data["id"]
+
+    yield  data["id"]
+
+    response_del=send_request(
+        method="delete",
+        url=f"{url}/{data['id']}"
+    )
+
+    if response_del.status_code == 200:
+        print("测试清理：删除成功")
+    else:
+        print("测试清理：商品已被删除，无需再删")
