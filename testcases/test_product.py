@@ -1,6 +1,5 @@
+import time
 from common.http_util import send_request
-
-product_id=None
 
 def test_get_products():
 
@@ -19,12 +18,10 @@ def test_get_products():
 
 def test_create_product():
 
-    global product_id
-
     url = "https://api.escuelajs.co/api/v1/products"
 
     payload = {
-        "title": "string_4",
+        "title": f"string{int(time.time()*10)}",
         "price": 100,
         "description": "string",
         "categoryId": 1,
@@ -44,9 +41,9 @@ def test_create_product():
     product_id = data["id"]
     print("创建商品id:", product_id)
 
-def test_get_product_detail():
+def test_get_product_detail(create_product):
 
-    url = f"https://api.escuelajs.co/api/v1/products/{product_id}"
+    url = f"https://api.escuelajs.co/api/v1/products/{create_product}"
 
     response = send_request(
                 method="get",
@@ -57,14 +54,14 @@ def test_get_product_detail():
     print(data)
     assert response.status_code == 200
     assert isinstance(data,dict)
-    assert data["id"] == product_id
+    assert data["id"] == create_product
 
-def test_update_product():
+def test_update_product(create_product):
 
-    url = f"https://api.escuelajs.co/api/v1/products/{product_id}"
+    url = f"https://api.escuelajs.co/api/v1/products/{create_product}"
 
     payload = {
-        "title": "updated_product_2",
+        "title": f"updated_product{int(time.time()*10)}",
         "price": 200,
         "description": "updated description",
         "categoryId": 1,
@@ -80,11 +77,11 @@ def test_update_product():
     data = response.json()
     print(data)
     assert response.status_code == 200
-    assert data["title"] == "updated_product_2"
+    assert data["title"] == payload["title"]
 
-def test_delete_product():
+def test_delete_product(create_product):
 
-    url = f"https://api.escuelajs.co/api/v1/products/{product_id}"
+    url = f"https://api.escuelajs.co/api/v1/products/{create_product}"
 
     response = send_request(
         method="delete",
