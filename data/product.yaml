@@ -1,0 +1,9 @@
+product:
+ - title: phone
+   price: 1000
+
+ - title: laptop
+   price: 500
+
+ - title: book
+   price: 50
