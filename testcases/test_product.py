@@ -1,4 +1,5 @@
 import time
+import pytest
 from common.http_util import send_request
 
 def test_get_products():
@@ -16,13 +17,18 @@ def test_get_products():
     assert isinstance(data,list)
     assert len(data)>0
 
-def test_create_product():
+@pytest.mark.parametrize("title,price",
+    [('phone',1000),
+     ('laptop',500),
+     ('book',50)
+])
+def test_create_product(title,price):
 
     url = "https://api.escuelajs.co/api/v1/products"
 
     payload = {
-        "title": f"string{int(time.time()*10)}",
-        "price": 100,
+        "title": f"{title}_{int(time.time()*10)}",
+        "price": price,
         "description": "string",
         "categoryId": 1,
         "images": [
@@ -38,8 +44,6 @@ def test_create_product():
     print(data)
     assert response.status_code == 201
     assert "id" in data
-    product_id = data["id"]
-    print("创建商品id:", product_id)
 
 def test_get_product_detail(create_product):
 
