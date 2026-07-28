@@ -12,9 +12,7 @@ def acc_token(token):
     return acc_token
 
 @pytest.fixture
-def create_product():
-
-    url = "https://api.escuelajs.co/api/v1/products"
+def update_product_payload():
 
     payload ={
         "title": f"test_product{int(time.time()*1000)}",
@@ -25,10 +23,17 @@ def create_product():
             "https://placehold.co/600x400"
         ]
     }
+    return payload
+
+@pytest.fixture
+def create_product(update_product_payload):
+
+    url = "https://api.escuelajs.co/api/v1/products"
+
     response = send_request(
         method="post",
         url=url,
-        json=payload
+        json=update_product_payload
     )
     data = response.json()
     if response.status_code != 201:
@@ -43,5 +48,9 @@ def create_product():
 
     if response_del.status_code == 200:
         print("测试清理：删除成功")
+    elif response_del.status_code == 400:
+        print("测试清理：商品不存在")
     else:
-        print("测试清理：商品已被删除，无需再删")
+        raise RuntimeError(
+            f"清理失败:{response_del.text}"
+        )
