@@ -94,3 +94,25 @@ def test_delete_product(create_product):
     )
     print(response.text)
     assert response.status_code == 200
+
+def test_product_full_business_flow(create_product):
+    """完整业务链路：创建 → 查询 → 修改 → 删除"""
+    base_url = "https://api.escuelajs.co/api/v1/products"
+
+    res_get = send_request("get", f"{base_url}/{create_product}")
+    assert res_get.status_code == 200
+    assert res_get.json()["id"] == create_product
+
+    update_payload = {
+        "title":"flow_updated",
+        "price":200,
+        "description":"update",
+        "categoryId":1,
+        "images":["https://placehold.co/600x400"]
+    }
+    res_update = send_request("put", f"{base_url}/{create_product}", json=update_payload)
+    assert res_update.status_code == 200
+    assert res_update.json()["title"] == update_payload["title"]
+
+    res_del = send_request("delete", f"{base_url}/{create_product}")
+    assert res_del.status_code == 200

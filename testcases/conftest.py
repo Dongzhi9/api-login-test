@@ -31,7 +31,8 @@ def create_product():
         json=payload
     )
     data = response.json()
-    assert response.status_code == 201
+    if response.status_code != 201:
+        raise RuntimeError(f"创建测试商品失败:{response.text}")
 
     yield  data["id"]
 
