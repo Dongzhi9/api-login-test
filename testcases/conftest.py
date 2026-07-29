@@ -3,9 +3,8 @@ import time
 from common.request_util import token
 from common.http_util import set_token
 from common.http_util import send_request
-from common.config_util import load_config
-
-BASE_URL = load_config()["base_url"]
+from common.config import BASE_URL
+from common.response_util import get_json
 
 @pytest.fixture(scope="session")
 def acc_token(token):
@@ -38,7 +37,7 @@ def create_product(update_product_payload):
         url=url,
         json=update_product_payload
     )
-    data = response.json()
+    data = get_json(response)
     if response.status_code != 201:
         raise RuntimeError(f"创建测试商品失败:{response.text}")
 

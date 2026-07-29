@@ -1,7 +1,8 @@
 import requests
+from tenacity import retry, stop_after_attempt, wait_fixed
 
 session = requests.session()
-
+@retry(stop=stop_after_attempt(3), wait=wait_fixed(1))
 def send_request(method, url, json=None, headers=None):
     """统一发送 HTTP 请求，自动打印请求和响应的详细信息。"""
     print("="*30)
@@ -9,13 +10,22 @@ def send_request(method, url, json=None, headers=None):
     print("method:",method)
     print("url:",url)
     print("json:",json)
-    print("headers:",headers)
+    print("headers:",session.headers)
 
-    response=session.request(
-        method=method,
-        url=url,
-        json=json,
-        headers=headers)
+    try:
+        response=session.request(
+            method=method,
+            url=url,
+            json=json,
+            headers=headers,
+            timeout=10
+        )
+    except requests.exceptions.Timeout:
+        raise RuntimeError(f"请求超时:{method} {url}")
+    except requests.exceptions.ConnectionError:
+        raise RuntimeError(f"网络连接失败:{method} {url}")
+    except requests.exceptions.RequestException as e:
+        raise RuntimeError(f"请求异常:{e}")
 
     print("="*30)
     print("response")

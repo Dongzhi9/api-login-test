@@ -1,3 +1,10 @@
-base_url: https://api.escuelajs.co/api/v1
-email: john@mail.com
-password: changeme
+env: test
+
+base_url:
+  test: https://api.escuelajs.co/api/v1
+  dev: https://dev-api.xxx.com
+  prod: https://prod-api.xxx.com
+
+login:
+  email: john@mail.com
+  password: changeme

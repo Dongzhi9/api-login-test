@@ -1,9 +1,7 @@
 import pytest
 import requests
 from common.http_util import send_request
-from common.config_util import load_config
-
-BASE_URL = load_config()["base_url"]
+from common.config import BASE_URL
 
 def test_token(acc_token):
     """使用 acc_token 调用个人信息接口，验证能成功返回个人信息。"""
