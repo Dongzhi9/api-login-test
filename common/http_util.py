@@ -2,15 +2,26 @@ import requests
 from tenacity import retry, stop_after_attempt, wait_fixed
 
 session = requests.session()
-@retry(stop=stop_after_attempt(3), wait=wait_fixed(1))
-def send_request(method, url, json=None, headers=None):
-    """统一发送 HTTP 请求，自动打印请求和响应的详细信息。"""
+
+def print_request(method, url, json):
     print("="*30)
     print("request")
     print("method:",method)
     print("url:",url)
     print("json:",json)
     print("headers:",session.headers)
+
+def print_response(response):
+    print("="*30)
+    print("response")
+    print("Status code:",response.status_code)
+    print("body:",response.text)
+
+@retry(stop=stop_after_attempt(3), wait=wait_fixed(1))
+def send_request(method, url, json=None, headers=None):
+    """统一发送 HTTP 请求，自动打印请求和响应的详细信息。"""
+
+    print_request(method, url, json)
 
     try:
         response=session.request(
@@ -27,10 +38,7 @@ def send_request(method, url, json=None, headers=None):
     except requests.exceptions.RequestException as e:
         raise RuntimeError(f"请求异常:{e}")
 
-    print("="*30)
-    print("response")
-    print("Status code:",response.status_code)
-    print("body:",response.text)
+    print_response(response)
 
     return response
 
