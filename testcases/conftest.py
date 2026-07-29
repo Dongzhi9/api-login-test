@@ -3,6 +3,9 @@ import time
 from common.request_util import token
 from common.http_util import set_token
 from common.http_util import send_request
+from common.config_util import load_config
+
+BASE_URL = load_config()["base_url"]
 
 @pytest.fixture(scope="session")
 def acc_token(token):
@@ -28,7 +31,7 @@ def update_product_payload():
 @pytest.fixture
 def create_product(update_product_payload):
 
-    url = "https://api.escuelajs.co/api/v1/products"
+    url = f"{BASE_URL}/products"
 
     response = send_request(
         method="post",
