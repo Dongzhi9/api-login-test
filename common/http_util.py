@@ -40,6 +40,11 @@ def send_request(method, url, json=None, headers=None):
 
     print_response(response)
 
+    if response.status_code in [502,503,504]:
+        raise RuntimeError(
+            f"服务器临时错误:{response.status_code}"
+        )
+    
     return response
 
 def set_token(token):
