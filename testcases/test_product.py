@@ -1,5 +1,6 @@
 import time
 import pytest
+import allure
 from common.http_util import send_request
 from common.config_util import load_product
 from common.config import BASE_URL
@@ -22,10 +23,13 @@ def test_get_products():
     assert len(data)>0
 
 product_data = load_product()["product"]
+@allure.story("创建商品")
+@allure.title("创建商品接口")
 @pytest.mark.parametrize(
     "product",
     product_data
 )
+@allure.feature("商品管理")
 def test_create_product(product):
 
     url = f"{BASE_URL}/products"
@@ -98,6 +102,9 @@ def test_delete_product(create_product):
     print(response.text)
     assert_status_code(response,200)
 
+@allure.feature("商品管理")
+@allure.story("完整业务流程")
+@allure.title("创建→查询→修改→删除")
 def test_product_full_business_flow(create_product):
     """完整业务链路：创建 → 查询 → 修改 → 删除"""
     base_url = f"{BASE_URL}/products"
