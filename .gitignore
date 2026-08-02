@@ -27,3 +27,7 @@ logs/
 
 # Reports
 reports/
+
+# Allure
+allure-results/
+allure-report/

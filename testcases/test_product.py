@@ -17,7 +17,6 @@ def test_get_products():
             )
 
     data = get_json(response)
-    print(data)
     assert_status_code(response,200)
     assert isinstance(data,list)
     assert len(data)>0
@@ -49,7 +48,6 @@ def test_create_product(product):
         json=payload
     )
     data = get_json(response)
-    print(data)
     assert_status_code(response,201)
     assert_json_key(data,"id")
 
@@ -63,7 +61,6 @@ def test_get_product_detail(create_product):
             )
 
     data = get_json(response)
-    print(data)
     assert_status_code(response,200)
     assert_json_value(data,"id",create_product)
     assert isinstance(data,dict)
@@ -87,7 +84,6 @@ def test_update_product(create_product):
         json=payload
     )
     data = get_json(response)
-    print(data)
     assert_status_code(response,200)
     assert_json_value(data,"title",payload["title"])
 
@@ -99,7 +95,6 @@ def test_delete_product(create_product):
         method="delete",
         url=url
     )
-    print(response.text)
     assert_status_code(response,200)
 
 @allure.feature("商品管理")

@@ -8,7 +8,6 @@ def test_query_user():
     where username='test_user'
     """
     data = query_one(sql)
-    print(data)
 
     assert data is not None
     assert data["username"] == "test_user"
