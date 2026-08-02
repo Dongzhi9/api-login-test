@@ -142,3 +142,7 @@ allure serve reports/result
 - PyMySQL
 - PyYAML
 - tenacity
+
+## Git Practice
+
+Day11 learning branch workflow.
